@@ -13,12 +13,18 @@ def unique_houses(filename):
     ["Dumbledore's Army", 'Gryffindor', 'Hufflepuff', 'Ravenclaw', 'Slytherin']
 
     """
+    filename = open(filename)
 
-    houses = set()
+    #houses = set()
 
+    #for l in filename:
+    #    line = l.rstrip()
+    #    line = line.split("|")
+    #    if line[2] != "":
+    #        houses.add(line[2])
     # Code goes here
 
-    return houses
+    return set(line.rstrip().split('|')[2] for line in filename if line.rstrip().split('|')[2] != '')
 
 
 def sort_by_cohort(filename):
@@ -34,6 +40,7 @@ def sort_by_cohort(filename):
     >>> sort_by_cohort("cohort_data.txt")
     [['Harry Potter', 'Mandy Brocklehurst', 'Ron Weasley', 'Oliver Wood', 'Colin Creevey', 'Cho Chang', 'Michael Corner', 'Draco Malfoy', 'Seamus Finnigan', 'Eddie Carmichael', 'Theodore Nott', 'Terence Higgs', 'Hermione Granger', 'Penelope Clearwater', 'Angelina Johnson', 'Dennis Creevey'], ['Neville Longbottom', 'Cedric Diggory', 'Pansy Parkinson', 'Anthony Goldstein', 'Padma Patil', 'Luna Lovegood', 'Eleanor Branstone', 'Lee Jordan', 'Marietta Edgecombe', 'Andrew Kirke', 'Ginny Weasley', 'Mary Macdonald', 'Blaise Zabini', 'Natalie McDonald', 'Adrian Pucey', 'Hannah Abbott', 'Graham Pritchard', 'Susan Bones', 'Roger Davies', 'Owen Cauldwell'], ['Laura Madley', 'Orla Quirke', 'Parvati Patil', 'Eloise Midgeon', 'Zacharias Smith', 'Cormac McLaggen', 'Lisa Turpin', 'Demelza Robins', 'Ernie Macmillan', 'Millicent Bullstrode', 'Percy Weasley', 'Jimmy Peakes', 'Justin Finch-Fletchley', 'Miles Bletchley', 'Malcolm Baddock'], ['Marcus Belby', 'Euan Abercrombie', 'Vincent Crabbe', 'Ritchie Coote', 'Katie Bell', 'Terry Boot', 'Lavender Brown', 'Gregory Goyle', 'Marcus Flint', 'Dean Thomas', 'Jack Sloper', 'Rose Zeller', 'Stewart Ackerley', 'Fred Weasley', 'George Weasley', 'Romilda Vane', 'Alicia Spinnet', 'Kevin Whitby'], ['Friendly Friar', 'Grey Lady', 'Nearly Headless Nick', 'Bloody Baron']]
     """
+    filename = open(filename)
 
     all_students = []
     winter_16 = []
@@ -43,6 +50,24 @@ def sort_by_cohort(filename):
     ghosts = []
 
     # Code goes here
+    for l in filename:
+        line = l.rstrip()
+        line = line.split('|')
+
+
+
+        if line[4] == "Fall 2015":
+            fall_15.append(line[0] + " " + line[1])
+        elif line[4] == "Summer 2016":
+            summer_16.append(line[0] + " " + line[1])
+        elif line[4] == "Winter 2016":
+            winter_16.append(line[0] + " " + line[1])
+        elif line[4] == "Spring 2016":
+            spring_16.append(line[0] + " " + line[1])
+        elif line[4] == "G":
+            ghosts.append(line[0] + " " + line[1])
+
+    all_students = [fall_15] + [winter_16] + [spring_16] + [summer_16] + [ghosts]
 
     return all_students
 
@@ -60,7 +85,7 @@ def hogwarts_by_house(filename):
     [['Abbott', 'Chang', 'Creevey', 'Creevey', 'Edgecombe', 'Nott', 'Spinnet'], ['Abercrombie', 'Bell', 'Brown', 'Coote', 'Finnigan', 'Granger', 'Johnson', 'Jordan', 'Kirke', 'Longbottom', 'Macdonald', 'McDonald', 'McLaggen', 'Patil', 'Peakes', 'Potter', 'Robins', 'Sloper', 'Thomas', 'Vane', 'Weasley', 'Weasley', 'Weasley', 'Weasley', 'Weasley', 'Wood'], ['Bones', 'Branstone', 'Cauldwell', 'Diggory', 'Finch-Fletchley', 'Macmillan', 'Madley', 'Midgeon', 'Smith', 'Whitby', 'Zeller'], ['Ackerley', 'Belby', 'Boot', 'Brocklehurst', 'Carmichael', 'Clearwater', 'Corner', 'Davies', 'Goldstein', 'Lovegood', 'Patil', 'Quirke', 'Turpin'], ['Baddock', 'Bletchley', 'Bullstrode', 'Crabbe', 'Flint', 'Goyle', 'Higgs', 'Malfoy', 'Parkinson', 'Pritchard', 'Pucey', 'Zabini'], ['Baron', 'Friar', 'Lady', 'Nick'], ['Flitwick', 'McGonagall', 'Snape', 'Sprout']]
 
     """
-
+    filename = open("cohort_data.txt")
     all_hogwarts = []
     dumbledores_army = []
     gryffindor = []
@@ -71,6 +96,10 @@ def hogwarts_by_house(filename):
     instructors = []
 
     # Code goes here
+
+    houses = list(set(line.rstrip().split('|')[2] for line in filename if line.rstrip().split('|')[2] != ''))
+    print("print here:", houses)
+
 
     return all_hogwarts
 
