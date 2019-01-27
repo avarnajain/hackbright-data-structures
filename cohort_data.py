@@ -85,41 +85,55 @@ def hogwarts_by_house(filename):
     [['Abbott', 'Chang', 'Creevey', 'Creevey', 'Edgecombe', 'Nott', 'Spinnet'], ['Abercrombie', 'Bell', 'Brown', 'Coote', 'Finnigan', 'Granger', 'Johnson', 'Jordan', 'Kirke', 'Longbottom', 'Macdonald', 'McDonald', 'McLaggen', 'Patil', 'Peakes', 'Potter', 'Robins', 'Sloper', 'Thomas', 'Vane', 'Weasley', 'Weasley', 'Weasley', 'Weasley', 'Weasley', 'Wood'], ['Bones', 'Branstone', 'Cauldwell', 'Diggory', 'Finch-Fletchley', 'Macmillan', 'Madley', 'Midgeon', 'Smith', 'Whitby', 'Zeller'], ['Ackerley', 'Belby', 'Boot', 'Brocklehurst', 'Carmichael', 'Clearwater', 'Corner', 'Davies', 'Goldstein', 'Lovegood', 'Patil', 'Quirke', 'Turpin'], ['Baddock', 'Bletchley', 'Bullstrode', 'Crabbe', 'Flint', 'Goyle', 'Higgs', 'Malfoy', 'Parkinson', 'Pritchard', 'Pucey', 'Zabini'], ['Baron', 'Friar', 'Lady', 'Nick'], ['Flitwick', 'McGonagall', 'Snape', 'Sprout']]
 
     """
-    filename = open("cohort_data.txt")
-    all_hogwarts = []
-    dumbledores_army = []
-    gryffindor = []
-    hufflepuff = []
-    ravenclaw = []
-    slytherin = []
-    ghosts = []
-    instructors = []
+    filename2 = open(filename)
+    # all_hogwarts = []
+    # dumbledores_army = []
+    # gryffindor = []
+    # hufflepuff = []
+    # ravenclaw = []
+    # slytherin = []
+    # ghosts = []
+    # instructors = []
 
     # Code goes here
 
     # houses = list(set(line.rstrip().split('|')[2] for line in filename if line.rstrip().split('|')[2] != ''))
-    houses = list(set(line.rstrip().split('|')[2] for line in filename if
+    houses = list(set(line.rstrip().split('|')[2] for line in filename2 if
     line.rstrip().split('|')[2] != ""))
-
-
-    filename = open("cohort_data.txt")
-    # house_dict = [house_dict[item] for item in houses house_dict[item] = item.lower().replace("'","").replace(" ","_")]
-    print("here", houses)
+    
+    #filename = open(filename)
+    houses_lower = [item.lower().replace("'","").replace(" ","_") for item in houses]
+    houses_lower = sorted(houses_lower)
+    houses_lower.append("ghosts")
+    houses_lower.append("instructors")
+    #print("HOUSES ORDER >>>", houses_lower)
+    #print("HOUSES LOWER -------", houses_lower)
     house_dict = {}
-
     # for item in houses:
-    # house_dict[item] = item.lower().replace("'","").replace(" ","_")
-    for item in houses:
+    for item in houses_lower:
         house_dict[item] = []
 
-    for line in filename:
+    filename2 = open(filename)
+    for line in filename2:
         line = line.rstrip().split('|')
         last_name = line[1]
-        
+      
         for house in house_dict:
-            if house == line[2]:
+            if house == line[2].lower():
                 house_dict[house].append(last_name)
+            elif house == "ghosts" and line[4] == "G":
+                house_dict['ghosts'].append(last_name)
+            elif house == "instructors" and line[4] == "I":
+                house_dict['instructors'].append(last_name)
+            elif house == "dumbledores_army" and line[2] == "Dumbledore's Army":
+                house_dict['dumbledores_army'].append(last_name)
 
+    house_sort = {}
+    for house in house_dict:
+        house_sort[house] = list(sorted(house_dict[house]))
+
+    #print("PRINT HERE", house_sort)
+    all_hogwarts = list(house_sort.values())
     return all_hogwarts
 
 
